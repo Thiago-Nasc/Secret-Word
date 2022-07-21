@@ -1,9 +1,14 @@
+// CSS
 import './style.css';
 
-export const GameOver = () => {
+// Types
+import { Callback } from '../../Types/Callback';
+
+export const GameOver = ({callback}: Callback) => {
 
     return (
         <div className="gameover">
+        <button onClick={callback}>Reiniciar Jogo</button>
             
         </div>
     )
