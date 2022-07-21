@@ -10,7 +10,7 @@ import './style.css';
 import { useCallback, useEffect, useState } from 'react';
 
 // Data
-import { wordsList } from '../../data/words';
+import { wordsObject } from '../../data/words';
 
 
 export const App = () => {
@@ -23,10 +23,33 @@ export const App = () => {
 
     // States
     const [ gameStage, setGameStage ] = useState(stages[0].stage);
-    const [ word, setWord ] = useState(wordsList);
+    const [ wordsList, setWords ] = useState(wordsObject);
+
+    // Gerar gategorias e palavras aleatória
+    const randomCategoryAndWord = () => {
+
+        // gerando categoria aleatória
+        const categories = Object.keys(wordsList);
+        const randomKeyCategory = Math.floor( Math.random() * categories.length );
+        const category = categories[randomKeyCategory];
+
+        // gerando palavra aleatória
+        const words = wordsObject[category as keyof typeof wordsObject];
+        const randomKeyWord = Math.floor( Math.random() * words.length );
+        const word = words[randomKeyWord];
+
+        // retornando valores
+        return [category, word];
+    };
+
 
     // Iniciar o jogo
-    const startGame = () => setGameStage(stages[1].stage);
+    const startGame = () => {
+        const [category, word] = randomCategoryAndWord();
+
+        
+        setGameStage(stages[1].stage);
+    }
 
     // Verificar letra
     const verifyLetter = () => setGameStage(stages[2].stage);
