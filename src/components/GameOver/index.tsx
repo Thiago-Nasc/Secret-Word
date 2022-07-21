@@ -1,19 +1,20 @@
 // CSS
 import './style.css';
 
-// Types
-import { Callback } from '../../Types/Callback';
-
 interface Props {
-    callback: Callback
+    retry: () => void,
+    score: number | undefined
 }
 
-export const GameOver = ({callback}: Props) => {
+export const GameOver = ({retry, score}: Props) => {
 
     return (
         <div className="gameover">
-        <button onClick={callback}>Reiniciar Jogo</button>
-            
+
+            <h1>Fim de Jogo!</h1>
+            <p>Sua pontuação foi: <span className="spots">{score}</span></p>
+            <button onClick={retry}>Reiniciar Jogo</button>
+
         </div>
     )
 };

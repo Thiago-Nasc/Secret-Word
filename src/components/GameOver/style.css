@@ -1,0 +1,15 @@
+h1 {
+    font-size: 4rem;
+    margin: 2rem 0;
+}
+
+p {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.spots {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ff0;
+}

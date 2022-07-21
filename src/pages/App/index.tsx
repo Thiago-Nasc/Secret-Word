@@ -7,13 +7,10 @@ import { GameOver } from '../../components/GameOver';
 import './style.css';
 
 // Hooks
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Data
 import { wordsObject } from '../../data/words';
-
-// Types
-import { ArrayString } from '../../Types/ArrayString';
 
 
 export const App = () => {
@@ -70,7 +67,7 @@ export const App = () => {
         
         // setando stágio
         setGameStage(stages[1].stage);
-    }
+    };
 
     // Verificar letra
     const verifyLetter = (letter: string) => {
@@ -97,11 +94,20 @@ export const App = () => {
         }
     };
 
+    // Reiniciar jogo
+    const retryGame = () => {
+        setScore(0);
+        setAttempts(attemptsQts);
+
+        setGameStage(stages[0].stage);
+    };
+
     const clearLetterStates = () => {
         setCorretLetters([]);
         setWrongLetters([]);
-    }
+    };
 
+    // monitoramento das tentativas do usuário
     useEffect(() => {
         if (attempts <= 0) {
             // resentando os states de letras
@@ -112,13 +118,17 @@ export const App = () => {
         }
     }, [attempts]);
 
-    // Reiniciar jogo
-    const retryGame = () => {
-        setScore(0);
-        setAttempts(attemptsQts);
+    // monitamento da vitória do usuário
+    useEffect(() => {
+        if (letters.length > 0 && letters.every((item) => corretLetters.includes(item))) {
 
-        setGameStage(stages[0].stage);
-    }
+            // alterando score
+            setScore(prevState => prevState + 150);
+
+            clearLetterStates();
+            startGame();
+        }
+    }, [corretLetters]);
 
     return (
         <div className='app'>
@@ -135,10 +145,10 @@ export const App = () => {
                 attempts={attempts}
                 score={score}
             />
-            }
+            };
 
-            { gameStage === 'end' && <GameOver callback={retryGame} /> }
+            { gameStage === 'end' && <GameOver retry={retryGame} score={score} /> }
 
         </div>
-    )
+    );
 };
