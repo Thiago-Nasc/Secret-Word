@@ -1,0 +1,11 @@
+.start h1 {
+    font-size: 4rem;
+}
+
+.start p {
+    margin: 4rem 0;
+
+    font-size: 2rem;
+
+    color: #ecfa00;
+}
