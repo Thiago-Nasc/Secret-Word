@@ -1,0 +1,112 @@
+.points {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 1rem 0;
+}
+
+.areaGame {
+    min-width: 60vw;
+    height: 36rem;
+    border: 1rem solid #ff0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: darkblue;
+    position: relative;
+}
+
+.areaGame:before,
+.areaGame:after {
+    content: '';
+    position: absolute;
+    width: 10rem;
+    height: 20rem;
+    top: 7rem;
+    background-color: inherit;
+    border: 1rem solid #ff0;
+}
+
+.areaGame:before {
+    left: -11rem;
+    border-right: none;
+}
+
+.areaGame:after {
+    right: -11rem;
+    border-left: none;
+}
+
+.areaLetterBlock {
+    display: flex;
+}
+
+.tip {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    display: inline-block;
+    border: .5rem solid #fff;
+    border-radius: 2rem;
+    padding: .8rem 2rem;
+    top: 2rem;
+}
+
+.attempts {
+    position: absolute;
+    font-size: 2rem;
+    bottom: 2rem;
+}
+
+.attempts .attempt {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ff0;
+    
+}
+
+.input {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7rem;
+
+}
+
+.input .title-input {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.input input {
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    margin-right: 2rem;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+}
+
+.wrongLetters {
+    width: 22rem;
+    height: 8rem;
+    top: 30rem;
+    right: 0;
+}
+
+.wrongLetters h3 {
+    font-size: 1.5rem;
+    margin: .5rem 0;
+}
+
+.wrongLetters .letter {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff0;
+    margin: 0 .5rem;
+}

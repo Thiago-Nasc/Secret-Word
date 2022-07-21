@@ -12,6 +12,9 @@ import { useCallback, useEffect, useState } from 'react';
 // Data
 import { wordsObject } from '../../data/words';
 
+// Types
+import { ArrayString } from '../../Types/ArrayString';
+
 
 export const App = () => {
 
@@ -21,9 +24,18 @@ export const App = () => {
         {id: 3, stage: 'end'}
     ];
 
+    // quantidade de tentativas do jogo
+    const attemptsQts = 3;
+
     // States
     const [ gameStage, setGameStage ] = useState(stages[0].stage);
     const [ wordsList, setWords ] = useState(wordsObject);
+    const [ randomCategory, setRandomCategory ] = useState<string>('');
+    const [ letters, setLetters ] = useState<string[]>([]);
+    const [ corretLetters, setCorretLetters ] = useState<string[]>([]);
+    const [ wrongLetters, setWrongLetters ] = useState<string[]>([]);
+    const [ attempts, setAttempts ] = useState(attemptsQts);
+    const [ score, setScore ] = useState(0);
 
     // Gerar gategorias e palavras aleatória
     const randomCategoryAndWord = () => {
@@ -36,7 +48,7 @@ export const App = () => {
         // gerando palavra aleatória
         const words = wordsObject[category as keyof typeof wordsObject];
         const randomKeyWord = Math.floor( Math.random() * words.length );
-        const word = words[randomKeyWord];
+        const word = words[randomKeyWord].toUpperCase();
 
         // retornando valores
         return [category, word];
@@ -45,23 +57,88 @@ export const App = () => {
 
     // Iniciar o jogo
     const startGame = () => {
+
+        // Recenbendo valores
         const [category, word] = randomCategoryAndWord();
 
+        // seprando a palavra em letras
+        const wordLetters = word.split('');
+
+        // setando valores
+        setRandomCategory(category);
+        setLetters(wordLetters);
         
+        // setando stágio
         setGameStage(stages[1].stage);
     }
 
     // Verificar letra
-    const verifyLetter = () => setGameStage(stages[2].stage);
+    const verifyLetter = (letter: string) => {
+        // checando se a letra já foi digitada antes
+        if (corretLetters.includes(letter) || wrongLetters.includes(letter)) {
+            return;
+        }
+
+        // validando erro ou acerto do usuário
+        if(letters.includes(letter)) {
+            // acerto
+            setCorretLetters((prevState) => [
+                ...prevState,
+                letter
+            ]);
+        } else {
+            //erro
+            setWrongLetters((prevState) => [
+                ...prevState,
+                letter
+            ]);
+
+            setAttempts(prevState => prevState - 1);
+        }
+    };
+
+    const clearLetterStates = () => {
+        setCorretLetters([]);
+        setWrongLetters([]);
+    }
+
+    useEffect(() => {
+        if (attempts <= 0) {
+            // resentando os states de letras
+            clearLetterStates();
+
+            //mudando o stágio para game over
+            setGameStage(stages[2].stage);
+        }
+    }, [attempts]);
 
     // Reiniciar jogo
-    const retryGame = () => setGameStage(stages[0].stage);
+    const retryGame = () => {
+        setScore(0);
+        setAttempts(attemptsQts);
+
+        setGameStage(stages[0].stage);
+    }
 
     return (
         <div className='app'>
+
             { gameStage === 'start' && <StartScreen callback={startGame} /> }
-            { gameStage === 'game' && <Game callback={verifyLetter} /> }
+
+            {
+            gameStage === 'game' && <Game
+                verifyLetter={verifyLetter}
+                wordLetters={letters}
+                tip={randomCategory}
+                corretLetters={corretLetters}
+                wrongLetters={wrongLetters}
+                attempts={attempts}
+                score={score}
+            />
+            }
+
             { gameStage === 'end' && <GameOver callback={retryGame} /> }
+
         </div>
     )
 };

@@ -6,7 +6,11 @@ import { Callback } from '../../Types/Callback';
 
 // componente de exibição inicial da aplicação
 
-export const StartScreen = ({callback}: Callback) => {
+interface Props {
+    callback: Callback;
+}
+
+export const StartScreen = ({callback}: Props) => {
 
     return (
         <div className="start">

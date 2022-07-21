@@ -4,7 +4,11 @@ import './style.css';
 // Types
 import { Callback } from '../../Types/Callback';
 
-export const GameOver = ({callback}: Callback) => {
+interface Props {
+    callback: Callback
+}
+
+export const GameOver = ({callback}: Props) => {
 
     return (
         <div className="gameover">
